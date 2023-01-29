@@ -29,7 +29,7 @@ public class Utils {
     public static <T extends Task> void mustRunAfterTests(Project project, Class<T> taskType) {
         TaskCollection<Test> testTasks = testTasks(project);
         tasksWithType(project, taskType).forEach(
-                task -> task.shouldRunAfter(testTasks)
+                task -> task.mustRunAfter(testTasks)
         );
     }
 
