@@ -6,8 +6,10 @@ import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileCollection;
+import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension;
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification;
@@ -24,6 +26,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
+        project.getPluginManager().apply(JavaPlugin.class);
         project.getPluginManager().apply(org.gradle.testing.jacoco.plugins.JacocoPlugin.class);
 
         JacocoPluginExtension jacoco = project.getExtensions().getByType(JacocoPluginExtension.class);
@@ -31,7 +34,8 @@ public abstract class JacocoPlugin implements Plugin<Project> {
 
         mustRunAfterTests(project, JacocoReport.class);
 
-        project.getTasks().withType(JacocoCoverageVerification.class).configureEach(verificationTask -> {
+        TaskCollection<JacocoCoverageVerification> jacocoCoverageVerifications = project.getTasks().withType(JacocoCoverageVerification.class);
+        jacocoCoverageVerifications.configureEach(verificationTask -> {
             verificationTask.dependsOn(project.getTasks().withType(Test.class));
             verificationTask.dependsOn(project.getTasks().withType(JacocoReport.class));
             verificationTask.dependsOn(project.getTasks().withType(CheckForExecutionDataTask.class));
@@ -44,8 +48,14 @@ public abstract class JacocoPlugin implements Plugin<Project> {
         });
 
         project.getTasks().register("checkForExecutionData", CheckForExecutionDataTask.class)
-                .configure(task -> setExecutionDataPath(project, task.getExecutionData()));
-        mustRunAfterTests(project, CheckForExecutionDataTask.class);
+                .configure(task -> {
+                    task.dependsOn(project.getTasks().withType(Test.class));
+                    setExecutionDataPath(project, task.getExecutionData());
+                });
+
+        project.getTasks().named("check").configure(
+                checkTask -> checkTask.dependsOn(jacocoCoverageVerifications)
+        );
     }
 
     private void setExecutionDataPath(Project project, ConfigurableFileCollection fileCollection) {
@@ -60,7 +70,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
         });
     }
 
-    public static class CheckForExecutionDataTask extends DefaultTask {
+    public static abstract class CheckForExecutionDataTask extends DefaultTask {
         private final Project project;
 
         @Inject
@@ -68,17 +78,14 @@ public abstract class JacocoPlugin implements Plugin<Project> {
             this.project = project;
         }
 
+        @InputFiles
+        public abstract ConfigurableFileCollection getExecutionData();
+
         @TaskAction
         public void check() {
             if (getExecutionData().isEmpty()) {
                 throw new GradleException("No tests found for " + project);
             }
         }
-
-        @InputFiles
-        public ConfigurableFileCollection getExecutionData() {
-            return project.files();
-        }
-
     }
 }
