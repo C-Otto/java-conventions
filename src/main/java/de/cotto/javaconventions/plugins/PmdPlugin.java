@@ -7,11 +7,12 @@ import org.gradle.api.plugins.quality.PmdExtension;
 
 import java.util.List;
 
+import static de.cotto.javaconventions.Utils.getResourceFile;
 import static de.cotto.javaconventions.Utils.getVersionFromCatalog;
 import static de.cotto.javaconventions.Utils.shouldRunBeforeTests;
 
-// TODO include actual configuration (pmd-ruleset.xml), as binary plugin?
 public abstract class PmdPlugin implements Plugin<Project> {
+    private static final String PMD_RULESET_XML = "/pmd-ruleset.xml";
 
     @Override
     public void apply(Project project) {
@@ -20,7 +21,7 @@ public abstract class PmdPlugin implements Plugin<Project> {
         PmdExtension pmd = project.getExtensions().getByType(PmdExtension.class);
         pmd.setToolVersion(getVersionFromCatalog(project, "pmdCpd"));
         pmd.setConsoleOutput(true);
-        pmd.setRuleSetFiles(project.files(project.getRootDir() + "/config/pmd-ruleset.xml"));
+        pmd.setRuleSetFiles(project.files(getResourceFile(project, PMD_RULESET_XML)));
         pmd.setRuleSets(List.of());
 
         shouldRunBeforeTests(project, Pmd.class);

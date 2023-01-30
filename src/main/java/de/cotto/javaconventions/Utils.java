@@ -8,6 +8,10 @@ import org.gradle.api.artifacts.VersionCatalogsExtension;
 import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
 
+import java.io.File;
+import java.net.URL;
+import java.util.Objects;
+
 public class Utils {
     public static MinimalExternalModuleDependency getFromCatalog(Project project, String alias) {
         VersionCatalog libs = getLibs(project);
@@ -43,5 +47,10 @@ public class Utils {
 
     private static <T extends Task> TaskCollection<T> tasksWithType(Project project, Class<T> taskType) {
         return project.getTasks().withType(taskType);
+    }
+
+    public static File getResourceFile(Project project, String resourcePath) {
+        URL uri = Objects.requireNonNull(Utils.class.getResource(resourcePath));
+        return project.getResources().getText().fromUri(uri).asFile();
     }
 }
