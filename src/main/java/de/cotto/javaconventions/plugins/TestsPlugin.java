@@ -30,6 +30,9 @@ public abstract class TestsPlugin implements Plugin<Project> {
             testSuite.getDependencies().getImplementation().add(project.getDependencies().platform(getPlatform(project)));
             testSuite.getDependencies().getImplementation().add("nl.jqno.equalsverifier:equalsverifier");
             testSuite.getDependencies().getImplementation().add("org.assertj:assertj-core");
+        });
+
+        testing.getSuites().named("test", JvmTestSuite.class).configure(testSuite -> {
             testSuite.getDependencies().getRuntimeOnly().add("org.slf4j:slf4j-nop");
         });
 

@@ -11,12 +11,8 @@
 
     <rule ref="category/java/bestpractices.xml">
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
-    </rule>
-    <rule ref="category/java/bestpractices.xml/JUnitTestsShouldIncludeAssert">
-        <properties>
-            <property name="violationSuppressXPath"
-                      value="./ancestor::ClassOrInterfaceBodyDeclaration//MethodDeclaration[@Name = 'testEquals']"/>
-        </properties>
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="GuardLogStatement"/>
     </rule>
     <rule ref="category/java/bestpractices.xml/JUnitTestContainsTooManyAsserts">
         <properties>
@@ -31,6 +27,7 @@
         <exclude name="UnnecessaryConstructor"/>
         <exclude name="CommentDefaultAccessModifier"/>
         <exclude name="TooManyStaticImports"/>
+        <exclude name="GenericsNaming"/>
     </rule>
     <rule ref="category/java/codestyle.xml/MethodNamingConventions">
         <properties>
@@ -71,7 +68,7 @@
     </rule>
     <rule ref="category/java/codestyle.xml/LongVariable">
         <properties>
-            <property name="minimum" value="30"/>
+            <property name="minimum" value="35"/>
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/LinguisticNaming">
@@ -83,16 +80,17 @@
     <rule ref="category/java/design.xml">
         <exclude name="LoosePackageCoupling"/>
         <exclude name="LawOfDemeter"/>
+        <exclude name="TooManyMethods"/>
+    </rule>
+    <rule ref="category/java/design.xml/ExcessiveImports">
+        <properties>
+            <property name="violationSuppressXPath"
+                value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]"/>
+        </properties>
     </rule>
     <rule ref="category/java/design.xml/UseUtilityClass">
         <properties>
             <property name="ignoredAnnotations" value="org.springframework.boot.autoconfigure.SpringBootApplication" />
-        </properties>
-    </rule>
-    <rule ref="category/java/design.xml/TooManyMethods">
-        <properties>
-            <property name="violationSuppressXPath"
-                      value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]"/>
         </properties>
     </rule>
     <rule ref="category/java/design.xml/SignatureDeclareThrowsException">
@@ -113,6 +111,7 @@
     <rule ref="category/java/documentation.xml/CommentSize">
         <properties>
             <property name="maxLineLength" value="120" />
+            <property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]" />
         </properties>
     </rule>
 
@@ -120,10 +119,20 @@
         <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="MissingSerialVersionUID"/>
     </rule>
+    <rule ref="category/java/errorprone.xml/TestClassWithoutTestCases">
+        <properties>
+            <property name="testClassPattern" value="^(?:.*\.)?.*Tests?$|^(?:.*\.)?.*TestCase$" />
+        </properties>
+    </rule>
 
-    <rule ref="category/java/multithreading.xml"/>
+    <rule ref="category/java/multithreading.xml">
+        <exclude name="DoNotUseThreads"/>
+        <exclude name="UseConcurrentHashMap"/>
+    </rule>
 
-    <rule ref="category/java/performance.xml"/>
+    <rule ref="category/java/performance.xml">
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+    </rule>
 
     <rule ref="category/java/security.xml"/>
 </ruleset>
