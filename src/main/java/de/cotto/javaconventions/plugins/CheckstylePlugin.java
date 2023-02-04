@@ -6,7 +6,7 @@ import org.gradle.api.plugins.quality.Checkstyle;
 import org.gradle.api.plugins.quality.CheckstyleExtension;
 
 import static de.cotto.javaconventions.Utils.getResourceFile;
-import static de.cotto.javaconventions.Utils.getVersionFromCatalog;
+import static de.cotto.javaconventions.Utils.getVersion;
 import static de.cotto.javaconventions.Utils.shouldRunBeforeTests;
 
 public abstract class CheckstylePlugin implements Plugin<Project> {
@@ -19,7 +19,7 @@ public abstract class CheckstylePlugin implements Plugin<Project> {
 
         CheckstyleExtension checkstyle = project.getExtensions().getByType(CheckstyleExtension.class);
         checkstyle.setMaxWarnings(0);
-        checkstyle.setToolVersion(getVersionFromCatalog(project, "checkstyle"));
+        checkstyle.setToolVersion(getVersion(project, "checkstyle"));
         checkstyle.setConfigFile(getResourceFile(project, CHECKSTYLE_XML));
 
         shouldRunBeforeTests(project, Checkstyle.class);

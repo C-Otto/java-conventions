@@ -1,5 +1,7 @@
 package de.cotto.javaconventions.plugins;
 
+import static de.cotto.javaconventions.Utils.getPlatform;
+
 import com.adarshr.gradle.testlogger.TestLoggerExtension;
 import com.adarshr.gradle.testlogger.TestLoggerPlugin;
 import com.adarshr.gradle.testlogger.theme.ThemeType;
@@ -14,8 +16,6 @@ import org.gradle.api.tasks.testing.TestListener;
 import org.gradle.api.tasks.testing.TestResult;
 import org.gradle.testing.base.TestingExtension;
 
-import static de.cotto.javaconventions.Utils.getFromCatalog;
-
 @SuppressWarnings("UnstableApiUsage")
 public abstract class TestsPlugin implements Plugin<Project> {
 
@@ -27,10 +27,10 @@ public abstract class TestsPlugin implements Plugin<Project> {
         TestingExtension testing = project.getExtensions().getByType(TestingExtension.class);
         testing.getSuites().withType(JvmTestSuite.class).configureEach(testSuite -> {
             testSuite.useJUnitJupiter();
-            testSuite.getDependencies().getImplementation().add(project.getDependencies().platform(getFromCatalog(project, "platform")));
-            testSuite.getDependencies().getImplementation().add(getFromCatalog(project, "testing-equalsverifier"));
-            testSuite.getDependencies().getImplementation().add(getFromCatalog(project, "testing-assertJCore"));
-            testSuite.getDependencies().getRuntimeOnly().add(getFromCatalog(project, "slf4jNop"));
+            testSuite.getDependencies().getImplementation().add(project.getDependencies().platform(getPlatform(project)));
+            testSuite.getDependencies().getImplementation().add("nl.jqno.equalsverifier:equalsverifier");
+            testSuite.getDependencies().getImplementation().add("org.assertj:assertj-core");
+            testSuite.getDependencies().getRuntimeOnly().add("org.slf4j:slf4j-nop");
         });
 
         project.getTasks().withType(Test.class).configureEach(testTask -> {

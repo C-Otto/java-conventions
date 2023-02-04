@@ -5,7 +5,7 @@ import de.aaschmid.gradle.plugins.cpd.CpdExtension;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
-import static de.cotto.javaconventions.Utils.getVersionFromCatalog;
+import static de.cotto.javaconventions.Utils.getVersion;
 import static de.cotto.javaconventions.Utils.shouldRunBeforeTests;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -16,7 +16,7 @@ public abstract class CpdPlugin implements Plugin<Project> {
         project.getPluginManager().apply(de.aaschmid.gradle.plugins.cpd.CpdPlugin.class);
 
         CpdExtension cpd = project.getExtensions().getByType(CpdExtension.class);
-        cpd.setToolVersion(getVersionFromCatalog(project, "pmdCpd"));
+        cpd.setToolVersion(getVersion(project, "pmdCpd"));
 
         shouldRunBeforeTests(project, Cpd.class);
     }

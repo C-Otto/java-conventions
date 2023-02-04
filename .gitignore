@@ -1,3 +1,5 @@
 .idea/
 .gradle/
 build/
+gradle/libs.versions.toml
+src/main/resources/versions.properties

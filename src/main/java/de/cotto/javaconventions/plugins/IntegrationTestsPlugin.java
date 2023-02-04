@@ -1,5 +1,7 @@
 package de.cotto.javaconventions.plugins;
 
+import static de.cotto.javaconventions.Utils.getPlatform;
+
 import com.adarshr.gradle.testlogger.TestLoggerExtension;
 import org.gradle.api.NamedDomainObjectProvider;
 import org.gradle.api.Plugin;
@@ -7,8 +9,6 @@ import org.gradle.api.Project;
 import org.gradle.api.attributes.TestSuiteType;
 import org.gradle.api.plugins.jvm.JvmTestSuite;
 import org.gradle.testing.base.TestingExtension;
-
-import static de.cotto.javaconventions.Utils.getFromCatalog;
 
 @SuppressWarnings("UnstableApiUsage")
 public abstract class IntegrationTestsPlugin implements Plugin<Project> {
@@ -21,7 +21,7 @@ public abstract class IntegrationTestsPlugin implements Plugin<Project> {
         NamedDomainObjectProvider<JvmTestSuite> suite = testing.getSuites().register("integrationTest", JvmTestSuite.class);
         suite.configure(testSuite -> {
             testSuite.getTestType().set(TestSuiteType.INTEGRATION_TEST);
-            testSuite.getDependencies().getImplementation().add(project.getDependencies().platform(getFromCatalog(project, "platform")));
+            testSuite.getDependencies().getImplementation().add(project.getDependencies().platform(getPlatform(project)));
             testSuite.getDependencies().getImplementation().add(testSuite.getDependencies().project());
 
             testSuite.getTargets().configureEach(

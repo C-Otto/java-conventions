@@ -19,7 +19,7 @@ import org.gradle.testing.jacoco.tasks.rules.JacocoViolationRule;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 
-import static de.cotto.javaconventions.Utils.getVersionFromCatalog;
+import static de.cotto.javaconventions.Utils.getVersion;
 import static de.cotto.javaconventions.Utils.mustRunAfterTests;
 
 public abstract class JacocoPlugin implements Plugin<Project> {
@@ -30,7 +30,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
         project.getPluginManager().apply(org.gradle.testing.jacoco.plugins.JacocoPlugin.class);
 
         JacocoPluginExtension jacoco = project.getExtensions().getByType(JacocoPluginExtension.class);
-        jacoco.setToolVersion(getVersionFromCatalog(project, "jacoco"));
+        jacoco.setToolVersion(getVersion(project, "jacoco"));
 
         mustRunAfterTests(project, JacocoReport.class);
 

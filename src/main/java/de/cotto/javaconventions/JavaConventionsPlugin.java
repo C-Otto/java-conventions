@@ -34,7 +34,7 @@ public abstract class JavaConventionsPlugin implements Plugin<Project> {
 
         project.getDependencies().add(
                 JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME,
-                project.getDependencies().platform(Utils.getFromCatalog(project, "platform"))
+                project.getDependencies().platform(Utils.getPlatform(project))
         );
 
         JavaPluginExtension java = project.getExtensions().getByType(JavaPluginExtension.class);

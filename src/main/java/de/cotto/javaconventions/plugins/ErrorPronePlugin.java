@@ -1,5 +1,8 @@
 package de.cotto.javaconventions.plugins;
 
+import static de.cotto.javaconventions.Utils.getPlatform;
+
+import java.util.List;
 import net.ltgt.gradle.errorprone.CheckSeverity;
 import net.ltgt.gradle.errorprone.ErrorProneOptions;
 import net.ltgt.gradle.nullaway.NullAwayExtension;
@@ -12,10 +15,6 @@ import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.PluginManager;
 import org.gradle.api.tasks.compile.JavaCompile;
-
-import java.util.List;
-
-import static de.cotto.javaconventions.Utils.getFromCatalog;
 
 public abstract class ErrorPronePlugin implements Plugin<Project> {
 
@@ -44,9 +43,9 @@ public abstract class ErrorPronePlugin implements Plugin<Project> {
         );
 
         String configurationName = net.ltgt.gradle.errorprone.ErrorPronePlugin.CONFIGURATION_NAME;
-        dependencies.add(configurationName, dependencies.platform(getFromCatalog(project, "platform")));
-        dependencies.add(configurationName, getFromCatalog(project, "gradleplugins-library-errorprone"));
-        dependencies.add(configurationName, getFromCatalog(project,"gradleplugins-library-nullaway"));
+        dependencies.add(configurationName, dependencies.platform(getPlatform(project)));
+        dependencies.add(configurationName, "com.google.errorprone:error_prone_core");
+        dependencies.add(configurationName, "com.uber.nullaway:nullaway");
     }
 
     private void configureErrorProne(ErrorProneOptions errorProne) {

@@ -10,7 +10,7 @@ import org.gradle.api.tasks.testing.Test;
 
 import java.util.List;
 
-import static de.cotto.javaconventions.Utils.getVersionFromCatalog;
+import static de.cotto.javaconventions.Utils.getVersion;
 
 public abstract class MutationTestsPlugin implements Plugin<Project> {
 
@@ -20,8 +20,8 @@ public abstract class MutationTestsPlugin implements Plugin<Project> {
         project.getPluginManager().apply(TestsPlugin.class);
 
         PitestPluginExtension pitest = project.getExtensions().getByType(PitestPluginExtension.class);
-        pitest.getPitestVersion().set(getVersionFromCatalog(project, "pitest"));
-        pitest.getJunit5PluginVersion().set(getVersionFromCatalog(project, "pitestJunit5Plugin"));
+        pitest.getPitestVersion().set(getVersion(project, "pitest"));
+        pitest.getJunit5PluginVersion().set(getVersion(project, "pitestJunit5Plugin"));
         pitest.getTargetClasses().set(List.of("de.cotto.*"));
         pitest.getOutputFormats().set(List.of("XML", "HTML"));
         pitest.getTimestampedReports().set(false);

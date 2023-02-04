@@ -1,10 +1,10 @@
 package de.cotto.javaconventions;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.artifacts.MinimalExternalModuleDependency;
-import org.gradle.api.artifacts.VersionCatalog;
-import org.gradle.api.artifacts.VersionCatalogsExtension;
 import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
 
@@ -13,14 +13,15 @@ import java.net.URL;
 import java.util.Objects;
 
 public class Utils {
-    public static MinimalExternalModuleDependency getFromCatalog(Project project, String alias) {
-        VersionCatalog libs = getLibs(project);
-        return libs.findLibrary(alias).orElseThrow().get();
+    private static final String VERSIONS_PROPERTIES_FILE = "/versions.properties";
+
+    public static String getPlatform(Project project) {
+        return "de.c-otto:java-platform:" + getVersion(project, "platform");
     }
 
-    public static String getVersionFromCatalog(Project project, String alias) {
-        VersionCatalog libs = getLibs(project);
-        return libs.findVersion(alias).orElseThrow().getRequiredVersion();
+    public static String getVersion(Project project, String alias) {
+        Properties properties = getProperties(project);
+        return properties.get(alias).toString();
     }
 
     public static <T extends Task> void shouldRunBeforeTests(Project project, Class<T> taskType) {
@@ -37,8 +38,15 @@ public class Utils {
         );
     }
 
-    private static VersionCatalog getLibs(Project project) {
-        return project.getExtensions().getByType(VersionCatalogsExtension.class).named("libs");
+    private static Properties getProperties(Project project) {
+        Properties properties = new Properties();
+        File resourceFile = getResourceFile(project, VERSIONS_PROPERTIES_FILE);
+        try {
+            properties.load(new FileInputStream(resourceFile));
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+        return properties;
     }
 
     private static TaskCollection<Test> testTasks(Project project) {

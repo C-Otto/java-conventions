@@ -20,7 +20,7 @@ public abstract class SpotbugsPlugin implements Plugin<Project> {
 
         SpotBugsExtension spotbugs = project.getExtensions().getByType(SpotBugsExtension.class);
         spotbugs.getExcludeFilter().set(project.file(getResourceFile(project, SPOTBUGS_EXCLUDE_XML)));
-        spotbugs.getToolVersion().set(Utils.getVersionFromCatalog(project, "spotbugs"));
+        spotbugs.getToolVersion().set(Utils.getVersion(project, "spotbugs"));
 
         TaskCollection<SpotBugsTask> spotbugsTasks = project.getTasks().withType(SpotBugsTask.class);
         spotbugsTasks.configureEach(task -> {
