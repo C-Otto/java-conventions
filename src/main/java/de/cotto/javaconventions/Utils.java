@@ -1,16 +1,18 @@
 package de.cotto.javaconventions;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Properties;
 
 public class Utils {
     private static final String VERSIONS_PROPERTIES_FILE = "/versions.properties";
@@ -58,7 +60,16 @@ public class Utils {
     }
 
     public static File getResourceFile(Project project, String resourcePath) {
+        String targetName = new File(resourcePath).getName();
         URL uri = Objects.requireNonNull(Utils.class.getResource(resourcePath));
-        return project.getResources().getText().fromUri(uri).asFile();
+        File temporaryFile = project.getResources().getText().fromUri(uri).asFile();
+        Path target = new File(temporaryFile.getParentFile(), targetName).toPath();
+        try {
+            Files.deleteIfExists(target);
+            Files.copy(temporaryFile.toPath(), target);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new File(temporaryFile.getParentFile(), targetName);
     }
 }
