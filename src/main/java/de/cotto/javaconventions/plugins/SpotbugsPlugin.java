@@ -27,5 +27,7 @@ public abstract class SpotbugsPlugin implements Plugin<Project> {
             task.getReports().create("xml").getRequired().set(false);
             task.getReports().create("html").getRequired().set(true);
         });
+
+        project.getDependencies().add(SpotBugsPlugin.SLF4J_CONFIG_NAME, "org.slf4j:slf4j-simple");
     }
 }
