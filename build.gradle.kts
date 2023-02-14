@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.c-otto"
-version = "2023.02.13_2"
+version = "2023.02.14"
 val pluginDescription = "This provides some defaults for Java projects"
 
 gradlePlugin {

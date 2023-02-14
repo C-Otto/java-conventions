@@ -26,4 +26,8 @@
         <Class name="~.*\.*Test" />
         <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME"/>
     </Match>
+    <Match>
+        <Local name="unused" />
+        <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+    </Match>
 </FindBugsFilter>
