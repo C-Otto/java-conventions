@@ -29,5 +29,6 @@ public abstract class SpotbugsPlugin implements Plugin<Project> {
         });
 
         project.getDependencies().add(SpotBugsPlugin.SLF4J_CONFIG_NAME, "org.slf4j:slf4j-simple");
+        project.getDependencies().add(SpotBugsPlugin.SLF4J_CONFIG_NAME, project.getDependencies().platform(Utils.getPlatform(project)));
     }
 }
