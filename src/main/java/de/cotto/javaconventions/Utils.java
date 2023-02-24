@@ -2,12 +2,13 @@ package de.cotto.javaconventions;
 
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.resources.TextResource;
 import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,9 +43,9 @@ public class Utils {
 
     private static Properties getProperties(Project project) {
         Properties properties = new Properties();
-        File resourceFile = getResourceFile(project, VERSIONS_PROPERTIES_FILE);
+        String propertiesString = readResourceFile(project, VERSIONS_PROPERTIES_FILE);
         try {
-            properties.load(new FileInputStream(resourceFile));
+            properties.load(new StringReader(propertiesString));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -59,10 +60,13 @@ public class Utils {
         return project.getTasks().withType(taskType);
     }
 
+    public static String readResourceFile(Project project, String resourcePath) {
+        return getTextResource(project, resourcePath).asString();
+    }
+
     public static File getResourceFile(Project project, String resourcePath) {
         String targetName = new File(resourcePath).getName();
-        URL uri = Objects.requireNonNull(Utils.class.getResource(resourcePath));
-        File temporaryFile = project.getResources().getText().fromUri(uri).asFile();
+        File temporaryFile = getTextResource(project, resourcePath).asFile();
         Path target = new File(temporaryFile.getParentFile(), targetName).toPath();
         try {
             Files.deleteIfExists(target);
@@ -71,5 +75,14 @@ public class Utils {
             throw new RuntimeException(e);
         }
         return new File(temporaryFile.getParentFile(), targetName);
+    }
+
+    private static TextResource getTextResource(Project project, String resourcePath) {
+        URL uri = getResourceUri(resourcePath);
+        return project.getResources().getText().fromUri(uri);
+    }
+
+    private static URL getResourceUri(String resourcePath) {
+        return Objects.requireNonNull(Utils.class.getResource(resourcePath));
     }
 }
