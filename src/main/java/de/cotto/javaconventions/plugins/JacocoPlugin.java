@@ -7,6 +7,8 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskCollection;
@@ -16,7 +18,6 @@ import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification;
 import org.gradle.testing.jacoco.tasks.JacocoReport;
 import org.gradle.testing.jacoco.tasks.rules.JacocoViolationRule;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 
 import static de.cotto.javaconventions.Utils.getVersion;
@@ -49,6 +50,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
 
         project.getTasks().register("checkForExecutionData", CheckForExecutionDataTask.class)
                 .configure(task -> {
+                    task.getProjectName().set(project.getName());
                     task.dependsOn(project.getTasks().withType(Test.class));
                     setExecutionDataPath(project, task.getExecutionData());
                 });
@@ -71,12 +73,8 @@ public abstract class JacocoPlugin implements Plugin<Project> {
     }
 
     public static abstract class CheckForExecutionDataTask extends DefaultTask {
-        private final Project project;
-
-        @Inject
-        public CheckForExecutionDataTask(Project project) {
-            this.project = project;
-        }
+        @Input
+        public abstract Property<String> getProjectName();
 
         @InputFiles
         public abstract ConfigurableFileCollection getExecutionData();
@@ -84,7 +82,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
         @TaskAction
         public void check() {
             if (getExecutionData().isEmpty()) {
-                throw new GradleException("No tests found for " + project);
+                throw new GradleException("No tests found for " + getProjectName());
             }
         }
     }
