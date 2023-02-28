@@ -39,8 +39,8 @@ public abstract class TestsPlugin implements Plugin<Project> {
         project.getTasks().withType(Test.class).configureEach(testTask -> {
             testTask.addTestListener(new FailIfIgnoredTestListener());
 
-            testTask.getSystemProperties().put(
-                    "unit.jupiter.displayname.generator.default",
+                testTask.getSystemProperties().put(
+                    "junit.jupiter.displayname.generator.default",
                     "org.junit.jupiter.api.DisplayNameGenerator$ReplaceUnderscores"
             );
         });
