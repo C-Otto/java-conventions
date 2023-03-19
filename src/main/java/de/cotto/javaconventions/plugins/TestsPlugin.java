@@ -32,10 +32,6 @@ public abstract class TestsPlugin implements Plugin<Project> {
             testSuite.getDependencies().getImplementation().add("org.assertj:assertj-core");
         });
 
-        testing.getSuites().named("test", JvmTestSuite.class).configure(testSuite -> {
-            testSuite.getDependencies().getRuntimeOnly().add("org.slf4j:slf4j-nop");
-        });
-
         project.getTasks().withType(Test.class).configureEach(testTask -> {
             testTask.addTestListener(new FailIfIgnoredTestListener());
 
