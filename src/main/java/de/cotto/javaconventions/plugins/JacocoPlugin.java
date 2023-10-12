@@ -6,6 +6,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileCollection;
+import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
@@ -50,7 +51,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
 
         project.getTasks().register("checkForExecutionData", CheckForExecutionDataTask.class)
                 .configure(task -> {
-                    task.getProjectName().set(project.getName());
+                    task.getProjectName().set( project.getName());
                     task.dependsOn(project.getTasks().withType(Test.class));
                     setExecutionDataPath(project, task.getExecutionData());
                 });
@@ -82,7 +83,7 @@ public abstract class JacocoPlugin implements Plugin<Project> {
         @TaskAction
         public void check() {
             if (getExecutionData().isEmpty()) {
-                throw new GradleException("No tests found for " + getProjectName());
+                throw new GradleException("No tests found for " + getProjectName().get());
             }
         }
     }
