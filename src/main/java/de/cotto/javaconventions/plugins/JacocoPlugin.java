@@ -62,7 +62,8 @@ public abstract class JacocoPlugin implements Plugin<Project> {
     }
 
     private void setExecutionDataPath(Project project, ConfigurableFileCollection fileCollection) {
-        fileCollection.setFrom(project.fileTree(project.getBuildDir()).include("/jacoco/*.exec"));
+        ConfigurableFileTree buildDirectory = project.fileTree(project.getLayout().getBuildDirectory());
+        fileCollection.setFrom(buildDirectory.include("/jacoco/*.exec"));
     }
 
     private Action<JacocoViolationRule> rule(String counter, double minimum) {
