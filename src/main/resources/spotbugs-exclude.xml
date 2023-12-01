@@ -23,9 +23,6 @@
         <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_THROWABLE"/>
     </Match>
     <Match>
-        <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES"/>
-    </Match>
-    <Match>
         <Class name="~.*\.*Test" />
         <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME"/>
     </Match>
