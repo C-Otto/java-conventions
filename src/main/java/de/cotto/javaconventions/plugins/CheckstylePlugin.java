@@ -22,6 +22,15 @@ public abstract class CheckstylePlugin implements Plugin<Project> {
         checkstyle.setToolVersion(getVersion(project, "checkstyle"));
         checkstyle.setConfigFile(getResourceFile(project, CHECKSTYLE_XML));
 
+        project.getConfigurations().all(
+                configuration -> configuration.resolutionStrategy(
+                        resolutionStrategy -> resolutionStrategy.capabilitiesResolution(
+                                capabilitiesResolution -> capabilitiesResolution.withCapability("com.google.collections:google-collections", capability -> capability.select("com.google.guava:guava:0")
+                                )
+                        )
+                )
+        );
+
         shouldRunBeforeTests(project, Checkstyle.class);
     }
 }
