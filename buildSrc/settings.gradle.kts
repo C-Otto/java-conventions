@@ -4,7 +4,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            from("de.c-otto:version-catalog:2023.12.01")
+            from("de.c-otto:version-catalog:2024.02.13")
         }
     }
 }
