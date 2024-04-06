@@ -13,10 +13,11 @@
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="JUnitTestsShouldIncludeAssert"/>
         <exclude name="GuardLogStatement"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
     </rule>
-    <rule ref="category/java/bestpractices.xml/JUnitTestContainsTooManyAsserts">
+    <rule ref="category/java/bestpractices.xml/LooseCoupling">
         <properties>
-            <property name="maximumAsserts" value="2"/>
+            <property name="allowedTypes" value="java.util.Properties,org.ini4j.Ini,com.tngtech.archunit.core.domain.JavaClasses" />
         </properties>
     </rule>
 
@@ -63,7 +64,7 @@
     <rule ref="category/java/codestyle.xml/AtLeastOneConstructor">
         <properties>
             <property name="violationSuppressXPath"
-                      value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]"/>
+                      value="./ancestor-or-self::*[self::ClassDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]]"/>
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/LongVariable">
@@ -73,7 +74,7 @@
     </rule>
     <rule ref="category/java/codestyle.xml/LinguisticNaming">
         <properties>
-            <property name="ignoredAnnotations" value="java.lang.Override|org.junit.jupiter.api.Test"/>
+            <property name="ignoredAnnotations" value="java.lang.Override,org.junit.jupiter.api.Test"/>
         </properties>
     </rule>
 
@@ -81,27 +82,25 @@
         <exclude name="LoosePackageCoupling"/>
         <exclude name="LawOfDemeter"/>
         <exclude name="TooManyMethods"/>
+        <exclude name="CouplingBetweenObjects"/>
     </rule>
     <rule ref="category/java/design.xml/ExcessiveImports">
         <properties>
             <property name="violationSuppressXPath"
-                value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]"/>
-        </properties>
-    </rule>
-    <rule ref="category/java/design.xml/UseUtilityClass">
-        <properties>
-            <property name="ignoredAnnotations" value="org.springframework.boot.autoconfigure.SpringBootApplication" />
+                value="//ClassDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]"/>
         </properties>
     </rule>
     <rule ref="category/java/design.xml/SignatureDeclareThrowsException">
         <properties>
             <property name="IgnoreJUnitCompletely" value="true"/>
+            <property name="violationSuppressXPath"
+                      value="./ancestor-or-self::*[self::ClassDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]]"/>
         </properties>
     </rule>
     <rule ref="category/java/design.xml/DataClass">
         <properties>
             <property name="violationSuppressXPath"
-                      value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Dto') or ends-with(@SimpleName, 'DTO')]"/>
+                      value="./ancestor-or-self::*[self::ClassDeclaration[ends-with(@SimpleName, 'Dto') or ends-with(@SimpleName, 'DTO') or ends-with(@SimpleName, 'Fixtures')]]"/>
         </properties>
     </rule>
 
@@ -111,12 +110,11 @@
     <rule ref="category/java/documentation.xml/CommentSize">
         <properties>
             <property name="maxLineLength" value="120" />
-            <property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]" />
+            <property name="violationSuppressXPath" value="//ClassDeclaration[ends-with(@SimpleName, 'Test') or ends-with(@SimpleName, 'IT')]" />
         </properties>
     </rule>
 
     <rule ref="category/java/errorprone.xml">
-        <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="MissingSerialVersionUID"/>
     </rule>
     <rule ref="category/java/errorprone.xml/TestClassWithoutTestCases">
