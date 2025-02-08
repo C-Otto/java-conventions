@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.c-otto"
-version = "2024.06.07"
+version = "2025.02.08"
 val pluginDescription = "This provides some defaults for Java projects"
 
 gradlePlugin {
@@ -61,8 +61,8 @@ publishing {
                     name = "OSSRH"
                     setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
                     credentials {
-                        username = "C-Otto"
-                        password = System.getenv("OSSRH_PASSWORD") ?: return@credentials
+                        username = System.getenv("SONATYPE_TOKEN_USERNAME") ?: return@credentials
+                        password = System.getenv("SONATYPE_TOKEN_PASSWORD") ?: return@credentials
                     }
                 }
             }
