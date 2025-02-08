@@ -10,10 +10,10 @@
     </description>
 
     <rule ref="category/java/bestpractices.xml">
-        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
-        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
+        <exclude name="UnitTestShouldIncludeAssert"/>
         <exclude name="GuardLogStatement"/>
-        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="UnitTestContainsTooManyAsserts"/>
     </rule>
     <rule ref="category/java/bestpractices.xml/LooseCoupling">
         <properties>
@@ -77,12 +77,19 @@
             <property name="ignoredAnnotations" value="java.lang.Override,org.junit.jupiter.api.Test"/>
         </properties>
     </rule>
+    <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName">
+        <properties>
+            <property name="reportStaticMethods" value="false" />
+            <property name="reportStaticFields" value="true" />
+        </properties>
+    </rule>
 
     <rule ref="category/java/design.xml">
         <exclude name="LoosePackageCoupling"/>
         <exclude name="LawOfDemeter"/>
         <exclude name="TooManyMethods"/>
         <exclude name="CouplingBetweenObjects"/>
+        <exclude name="SimplifyBooleanReturns"/>
     </rule>
     <rule ref="category/java/design.xml/ExcessiveImports">
         <properties>
@@ -101,6 +108,11 @@
         <properties>
             <property name="violationSuppressXPath"
                       value="./ancestor-or-self::*[self::ClassDeclaration[ends-with(@SimpleName, 'Dto') or ends-with(@SimpleName, 'DTO') or ends-with(@SimpleName, 'Fixtures')]]"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/design.xml/UseUtilityClass">
+        <properties>
+            <property name="violationSuppressXPath" value=".[pmd-java:hasAnnotation('org.springframework.boot.autoconfigure.SpringBootApplication')]" />
         </properties>
     </rule>
 
