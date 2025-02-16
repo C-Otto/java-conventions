@@ -59,6 +59,7 @@ public abstract class ErrorPronePlugin implements Plugin<Project> {
                 "org.mockito.InjectMocks",
                 "org.junit.jupiter.api.io.TempDir",
                 "org.springframework.boot.test.mock.mockito.MockBean",
+                "org.springframework.test.context.bean.override.mockito.MockitoBean",
                 "org.springframework.beans.factory.annotation.Autowired",
                 "org.mockito.Captor",
                 "org.springframework.beans.factory.annotation.Value"
