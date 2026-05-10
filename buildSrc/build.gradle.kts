@@ -15,12 +15,12 @@ fun getToml(): String {
     val stringBuilder = StringBuilder()
     stringBuilder.append("[versions]\n")
     catalog.versionAliases.forEach {
-        stringBuilder.append(this.getTomlVersionEntry(it, catalog.findVersion(it)))
+        stringBuilder.append(getTomlVersionEntry(it, catalog.findVersion(it)))
     }
 
     stringBuilder.append("[libraries]\n")
     catalog.libraryAliases.forEach {
-        stringBuilder.append(this.getTomlLibraryEntry(it, catalog.findLibrary(it)))
+        stringBuilder.append(getTomlLibraryEntry(it, catalog.findLibrary(it)))
     }
 
     return stringBuilder.toString()

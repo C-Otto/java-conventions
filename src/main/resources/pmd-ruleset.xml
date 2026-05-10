@@ -14,6 +14,7 @@
         <exclude name="UnitTestShouldIncludeAssert"/>
         <exclude name="GuardLogStatement"/>
         <exclude name="UnitTestContainsTooManyAsserts"/>
+        <exclude name="ImplicitFunctionalInterface"/>
     </rule>
     <rule ref="category/java/bestpractices.xml/LooseCoupling">
         <properties>
@@ -29,6 +30,11 @@
         <exclude name="CommentDefaultAccessModifier"/>
         <exclude name="TooManyStaticImports"/>
         <exclude name="GenericsNaming"/>
+    </rule>
+    <rule ref="category/java/codestyle.xml/TypeParameterNamingConventions">
+        <properties>
+            <property name="typeParameterNamePattern" value="[A-Z]+" />
+        </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/MethodNamingConventions">
         <properties>

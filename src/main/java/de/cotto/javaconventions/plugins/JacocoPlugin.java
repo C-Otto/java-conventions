@@ -11,6 +11,8 @@ import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
@@ -18,6 +20,7 @@ import org.gradle.testing.jacoco.plugins.JacocoPluginExtension;
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification;
 import org.gradle.testing.jacoco.tasks.JacocoReport;
 import org.gradle.testing.jacoco.tasks.rules.JacocoViolationRule;
+import org.gradle.work.DisableCachingByDefault;
 
 import java.math.BigDecimal;
 
@@ -74,11 +77,13 @@ public abstract class JacocoPlugin implements Plugin<Project> {
         });
     }
 
+    @DisableCachingByDefault(because = "too simple")
     public static abstract class CheckForExecutionDataTask extends DefaultTask {
         @Input
         public abstract Property<String> getProjectName();
 
         @InputFiles
+        @PathSensitive(PathSensitivity.NONE)
         public abstract ConfigurableFileCollection getExecutionData();
 
         @TaskAction

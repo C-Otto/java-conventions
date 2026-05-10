@@ -16,7 +16,7 @@ import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.plugins.JavaResolutionConsistency;
 import org.gradle.api.tasks.compile.JavaCompile;
 
-import static org.gradle.api.JavaVersion.VERSION_17;
+import static org.gradle.api.JavaVersion.VERSION_25;
 
 @SuppressWarnings("UnstableApiUsage")
 public abstract class JavaConventionsPlugin implements Plugin<Project> {
@@ -38,8 +38,8 @@ public abstract class JavaConventionsPlugin implements Plugin<Project> {
         );
 
         JavaPluginExtension java = project.getExtensions().getByType(JavaPluginExtension.class);
-        java.setSourceCompatibility(VERSION_17);
-        java.setTargetCompatibility(VERSION_17);
+        java.setSourceCompatibility(VERSION_25);
+        java.setTargetCompatibility(VERSION_25);
         java.consistentResolution(JavaResolutionConsistency::useCompileClasspathVersions);
 
         project.getTasks().withType(JavaCompile.class).configureEach(
