@@ -42,6 +42,14 @@
         <Bug pattern="PA_PUBLIC_PRIMITIVE_ATTRIBUTE"/>
     </Match>
     <Match>
+        <Class name="~.*\.*Test" />
+        <Bug pattern="MS_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="~.*\.*IT" />
+        <Bug pattern="MS_EXPOSE_REP"/>
+    </Match>
+    <Match>
         <Local name="unused" />
         <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
     </Match>
