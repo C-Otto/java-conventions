@@ -35,11 +35,11 @@
     </Match>
     <Match>
         <Class name="~.*\.*Test" />
-        <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME"/>
+        <Bug pattern="PA_PUBLIC_PRIMITIVE_ATTRIBUTE"/>
     </Match>
     <Match>
         <Class name="~.*\.*IT" />
-        <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME"/>
+        <Bug pattern="PA_PUBLIC_PRIMITIVE_ATTRIBUTE"/>
     </Match>
     <Match>
         <Local name="unused" />
